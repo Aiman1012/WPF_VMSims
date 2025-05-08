@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows;
+using Microsoft.VisualBasic;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -16,15 +18,40 @@ namespace WPF_VMSims
     /// </summary>
     public partial class MainWindow : Window
     {
+        private TimeSpan? timerDuration = null;
         public MainWindow()
         {
             InitializeComponent();
+
+            if (MachineState.LastRunDuration.TotalSeconds > 0)
+            {
+                lastSessionText.Text = $"Last Session Duration: {MachineState.LastRunDuration:hh\\:mm\\:ss}";
+            }
         }
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private void StartManual_Click(object sender, RoutedEventArgs e)
         {
-            MachinePage machinePage = new MachinePage();
+            MachinePage machinePage = new MachinePage(null);
             machinePage.Show();
-            this.Close(); // Optional: close main window
+            this.Close();
         }
+
+        private void SetTimer_Click(object sender, RoutedEventArgs e)
+        {
+            string input = Interaction.InputBox("Enter run time in seconds:", "Set Timer", "60");
+            if (int.TryParse(input, out int seconds) && seconds > 0)
+            {
+                timerDuration = TimeSpan.FromSeconds(seconds);
+                MessageBox.Show($"Timer set: {timerDuration.Value:hh\\:mm\\:ss}");
+
+                MachinePage machinePage = new MachinePage(timerDuration);
+                machinePage.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid time entered.");
+            }
+        }
+
     }
 }

@@ -9,7 +9,9 @@
     <Grid>
         <TextBlock x:Name="statusText" Text="Machine is RUNNING..." FontSize="20"
                    HorizontalAlignment="Center" Margin="0,40,0,0"/>
+        <TextBlock x:Name="timerText" Text="Elapsed Time: 00:00:00"
+           HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.516,-1.22" Margin="0,121,0,0"/>
         <Button Content="Stop Machine" Width="150" Height="40" HorizontalAlignment="Center"
-                VerticalAlignment="Center" Click="StopButton_Click"/>
+                VerticalAlignment="Top" Click="StopButton_Click" RenderTransformOrigin="0.489,1.092" Margin="0,188,0,0"/>
     </Grid>
 </Window>
