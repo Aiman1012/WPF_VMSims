@@ -40,7 +40,7 @@ A simple simulation of an industrial machine control panel with both **manual** 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/virtual-machine-simulator.git
+   git clone https://github.com/Aiman1012/WPF_VMSims.git
 
 2. **Open In Visual Studio Code**
 
