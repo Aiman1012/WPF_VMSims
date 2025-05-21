@@ -36,18 +36,21 @@ namespace WPF_VMSims
 
             if (runTime.HasValue)
             {
-                originalCountdown = runTime.Value;
                 countdownTime = runTime.Value;
-                timer.Start();
+                originalCountdown = runTime.Value;
                 timerText.Text = $"Remaining Time: {countdownTime:hh\\:mm\\:ss}";
                 statusText.Text = "Machine is RUNNING (Countdown)";
+                Logger.Log("Machine started in TIMER mode");
             }
             else
             {
                 startTime = DateTime.Now;
-                timer.Start();
                 statusText.Text = "Machine is RUNNING (Manual)";
+                Logger.Log("Machine started in MANUAL mode");
             }
+
+            timer.Start();
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -59,6 +62,7 @@ namespace WPF_VMSims
                     timer.Stop();
                     MachineState.LastRunDuration = countdownTime.HasValue ? originalCountdown - countdownTime.Value : TimeSpan.Zero;
                     MessageBox.Show("Timer finished. Machine stopped.");
+                    Logger.Log("Machine stopped after timer finished");
                     new MainWindow().Show();
                     this.Close();
                 }
@@ -84,10 +88,13 @@ namespace WPF_VMSims
             {
                 TimeSpan duration = originalCountdown - countdownTime.Value;
                 MachineState.LastRunDuration = duration;
+                Logger.Log($"Machine forcefully stopped after {duration:hh\\:mm\\:ss}");
             }
             else
             {
+                TimeSpan elapsed = DateTime.Now - startTime;
                 MachineState.LastRunDuration = DateTime.Now - startTime;
+                Logger.Log($"Machine manually stopped after {elapsed:hh\\:mm\\:ss}");
             }
 
             MainWindow mainWindow = new MainWindow();
